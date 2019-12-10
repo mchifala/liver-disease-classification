@@ -1,0 +1,28 @@
+language: python
+
+before_install:
+    - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    - bash Miniconda3-latest-Linux-x86_64.sh -b
+    - . /home/travis/miniconda3/etc/profile.d/conda.sh
+    - conda update --yes conda
+    - conda config --add channels r
+    - conda create --yes -n test
+    - conda activate test
+    - conda install --yes python=3.6
+    - conda install -y pycodestyle
+    - conda install -y pandas
+    - conda install -y -c anaconda scikit-learn
+    - conda install -y -c anaconda flask
+    - conda install -y numpy
+    - conda install -y requests
+    - conda install -y matplotlib
+    - conda install -y jsonpickle
+    - conda install -y seaborn
+script:
+    - pycodestyle rest_client.py
+    - pycodestyle rest_server.py
+    - pycodestyle unit_tests.py
+    - pycodestyle liver_functions.py
+    - python unit_tests.py
+    - nohup python rest_server.py &
+    - bash functional_test.sh
