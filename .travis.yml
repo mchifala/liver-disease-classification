@@ -16,7 +16,7 @@ before_install:
     - conda install -y numpy
     - conda install -y requests
     - conda install -y matplotlib
-
+    - conda install -y jsonpickle
 script:
     - pycodestyle rest_client.py
     - pycodestyle rest_server.py
