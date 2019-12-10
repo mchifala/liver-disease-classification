@@ -17,6 +17,7 @@ before_install:
     - conda install -y requests
     - conda install -y matplotlib
     - conda install -y jsonpickle
+    - conda install -y seaborn
 script:
     - pycodestyle rest_client.py
     - pycodestyle rest_server.py
