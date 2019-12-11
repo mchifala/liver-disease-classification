@@ -12,6 +12,27 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import f1_score
 
+def build_pipeline(classifier, isScaled, selectFeatures):
+    if selectFeatures:
+        if isScaled:
+            pipe = Pipeline(steps=[("imputer", SimpleImputer()),
+                                   ("scale", StandardScaler()),
+                                   ("rfe", RFE(estimator=classifier)), 
+                                   ("clf", classifier)])
+        else:
+            pipe = Pipeline(steps=[("imputer", SimpleImputer()),
+                                   ("rfe", RFE(estimator=classifier)),
+                                   ("clf", classifier)])
+    else:
+        if isScaled:
+            pipe = Pipeline(steps=[("imputer", SimpleImputer()),
+                                   ("scale", StandardScaler()),
+                                   ("clf", classifier)])
+        else:
+            pipe = Pipeline(steps=[("imputer", SimpleImputer()),
+                                   ("clf", classifier)])
+    
+    return pipe
 
 def import_data(csv_file):
     """
