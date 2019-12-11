@@ -10,7 +10,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import f1_score
+from joblib import dump, load
+from sklearn.feature_selection import RFE
 
 def build_pipeline(classifier, isScaled, selectFeatures):
     if selectFeatures:
@@ -33,6 +34,12 @@ def build_pipeline(classifier, isScaled, selectFeatures):
                                    ("clf", classifier)])
     
     return pipe
+
+def run_gridsearch(pipe, param_grid, num_folds, metric, X_train, y_train, output_model):
+    search = GridSearchCV(pipe, param_grid, cv=num_folds, scoring=metric)
+    search.fit(X_train, y_train)
+    dump(search.best_estimator_, output_model+".pkl")
+    return search.best_params_, search.best_score_, search.best_estimator_
 
 def import_data(csv_file):
     """

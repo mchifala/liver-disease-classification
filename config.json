@@ -1,0 +1,16 @@
+{
+    "file": "Indian Liver Patient Dataset (ILPD).csv",
+    "one_hot_encode": "gender", 
+    "class_label": "is_patient",
+    "isScaled": true,
+    "selectFeatures": true,
+    "metric": "f1",
+    "num_folds": 10,
+    "output_model": "config_test",
+    "param_grid": {
+        "clf__max_depth": [null, 3, 6, 9],
+        "clf__max_features": ["sqrt", "log2"],
+        "clf__min_samples_split": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        "rfe__n_features_to_select": [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12]
+    }  
+}
