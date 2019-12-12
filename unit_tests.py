@@ -15,6 +15,9 @@ from liver_functions import evaluate_test_set
 
 class TestFunctions(unittest.TestCase):
 
+    # Testing select_model was too complicated for a unit test;
+    # See the functional_test.sh file as alternatitve
+
     def make_char_file(self):
         """
         This helper function makes a .csv file of random characters
@@ -83,6 +86,20 @@ class TestFunctions(unittest.TestCase):
         pd.testing.assert_frame_equal(df_enc, one_hot_encode(df, "gender"),
                                       check_like=True,
                                       check_dtype=False)
+        
+    def test_one_hot_error(self):
+        """
+        This test function ensures that the one_hot_encode
+        functions properly handles errors
+
+        """
+        df = self.make_gender_df()
+        df_enc = df.copy()
+        df_enc["Male"] = df_enc["gender"].apply(lambda x: 1 if x == "Male" else 0)  # noqa: E501
+        df_enc["Female"] = df_enc["gender"].apply(lambda x: 1 if x == "Female" else 0)  # noqa: E501
+        df_enc.drop(columns=["gender"],  inplace=True)
+        self.assertRaises(KeyError and SystemExit, 
+                          one_hot_encode, df, "bad_col")
 
     def test_data_import(self):
         """
@@ -95,6 +112,15 @@ class TestFunctions(unittest.TestCase):
         df = df.reindex(df.index.drop(0)).reset_index(drop=True)
         df_import = import_data("test_data.csv")
         pd.testing.assert_frame_equal(df, df_import, check_less_precise=0)
+        
+    def test_data_import_error(self):
+        """
+        This test_function ensures that the import_data function
+        properly handles errors
+
+        """
+        self.assertRaises(FileNotFoundError and SystemExit, 
+                          import_data, "")
 
     def test_split(self):
         """
