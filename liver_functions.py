@@ -14,6 +14,8 @@ from joblib import dump
 from joblib import load
 from sklearn.feature_selection import RFE
 from sklearn.metrics import f1_score
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 def build_pipeline(classifier, isScaled, selectFeatures):
@@ -49,7 +51,6 @@ def build_pipeline(classifier, isScaled, selectFeatures):
             else:
                 pipe = Pipeline(steps=[("imputer", SimpleImputer()),
                                        ("clf", classifier)])
-
         return pipe
 
     except Exception as inst:

@@ -23,7 +23,7 @@ from liver_functions import evaluate_test_set
 from joblib import dump
 from joblib import load
 import json
-from time import perf_counter 
+from time import perf_counter
 
 
 def select_model(config_file):
@@ -66,25 +66,29 @@ def select_model(config_file):
     params, score, model, results = run_gridsearch(pipe, param_grid,
                                                    config["num_folds"],
                                                    config["metric"], X_train,
-                                                   y_train, config["output_model"])
+                                                   y_train,
+                                                   config["output_model"])
     t1 = perf_counter()
-    
- 
+
     print("Grid search runtime:", t1-t0)
-    print("Number of hyperparameter combinations:", len(results["mean_test_score"]))
-    print("Average time per combination:", (t1-t0)/(len(results["mean_test_score"])))
+    print("# of hyperparameter combinations:",
+          len(results["mean_test_score"]))
+    print("Avg. time per combination:",
+          (t1-t0)/(len(results["mean_test_score"])))
     print("Best parameters:", params)
     print("Best validation score:", score)
     print("Best model:", model)
     if config["selectFeatures"]:
-        print("# of features selected:", model.named_steps["rfe"].n_features_)
-        print("Features:", np.array(df.columns[:-1])[model.named_steps["rfe"].support_])
-        print("Feature ranking:", 
-              np.array(model.named_steps["rfe"].ranking_)[model.named_steps["rfe"].support_])
+        print("# of features selected:",
+              model.named_steps["rfe"].n_features_)
+        print("Features:", np.array(df.columns[:-1])[model.named_steps["rfe"].support_])  # noqa: E501
+        print("Feature ranking:",
+              np.array(model.named_steps["rfe"].ranking_)[model.named_steps["rfe"].support_])  # noqa: E501
     pd.DataFrame(results).to_csv(config["cv_file"])
 
     y_pred = model.predict(X_test)
     evaluate_test_set(y_test, y_pred, "confusion_matrix.png")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Configuration file")

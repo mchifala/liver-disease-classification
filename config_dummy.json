@@ -1,0 +1,15 @@
+{
+    "file": "Indian Liver Patient Dataset (ILPD).csv",
+    "one_hot_encode": "gender", 
+    "class_label": "is_patient",
+    "model_type": "knn",
+    "isScaled": true,
+    "selectFeatures": false,
+    "metric": "f1",
+    "num_folds": 10,
+    "output_model": "dummy_knn",
+    "cv_file": "dummy_cv.csv",
+    "param_grid": {
+        "clf__n_neighbors": [1]
+    }  
+}
