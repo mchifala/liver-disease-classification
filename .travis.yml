@@ -19,6 +19,7 @@ before_install:
     - conda install -y jsonpickle
     - conda install -y seaborn
 script:
+    - pycodestyle select_model.py
     - pycodestyle rest_client.py
     - pycodestyle rest_server.py
     - pycodestyle unit_tests.py

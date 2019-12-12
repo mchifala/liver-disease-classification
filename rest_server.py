@@ -26,7 +26,7 @@ def make_prediction():
     try:
         X_test = np.array(data["features"],
                           dtype=np.float64).reshape(1, 11)
-        loaded_model = load("test_model.pkl")
+        loaded_model = load("best_tree.pkl")
         pred = loaded_model.predict(X_test)
         response = {"patient_id": data["id"],
                     "prediction": pred[0]}
