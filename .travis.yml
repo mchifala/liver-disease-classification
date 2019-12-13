@@ -24,6 +24,9 @@ script:
     - pycodestyle rest_server.py
     - pycodestyle unit_tests.py
     - pycodestyle liver_functions.py
+    - pycodestyle liver_explore.py
+    - pycodestyle test_liver_explore.py
     - python unit_tests.py
+    - python test_liver_explore.py
     - nohup python rest_server.py &
     - bash functional_test.sh
