@@ -1,17 +1,18 @@
 # Liver disease prediction
-V1.0: The goal of this project is to predict the classification of liver disease or no liver disease based on biological features.
+V1.0: The goal of this project is to accurately predict whether or not a patient has liver disease based on biological features.
 
 **Scientific question:** 
-Can we accurately predict the development of liver
-disease in India from certain biological markers? If so, can we determine which markers are most useful for the prediction?
+Can we accurately predict the development of liver disease in India from certain biological markers? If so, can we determine which markers are most useful for the prediction?
+
+We also want to deploy our classifier as simple REST API to simulate an on-demand prediction service for doctors
 
 ## Dataset
 
-The dataset we used consisted of records for 583 patients from a region northeast of Andhra Pradesh, India. 416 of the patients had liver disease and 167 of the patients were healthy. There are 10 biological features per each patient in addition to a class label of 0 or 1 (healthy or liver disease).
+The dataset we used consists of records for 583 patients from a region northeast of Andhra Pradesh, India. 416 of the patients have liver disease and 167 of the patients are healthy. There are 10 biological features per each patient in addition to a class label of 0 or 1 (healthy or liver disease).
 
 The data is contained in the Indian Liver Patient Dataset (ILPD).csv file of this repository
 
-## Getting Started
+## Getting started
 
 These instructions will get you a copy of the project up and running on your local machine.
 
@@ -124,24 +125,37 @@ conda install -y seaborn
 
 **Installing jsonpickle:**
 
-jsonpickle is required to serialize Python objects into JSON format 
+jsonpickle is required to serialize Python objects into JSON format during HTTP requests and responses
 
 ```
 conda install -y jsonpickle
 ```
-### Examples
-select_model.py is the primary component of this project. It takes a JSON configuration file (see config_dummy.json for sample) and uses its contents to load a dataset, split the dataset into train-test samples, build a ML pipe, and run a grid search using k-fold cross validation.
 
-The output of this script includes print statements of the total grid search runtime, the # of hyperparameters explored, the best hyperparameter combination, the validation score associated with this combination, the best model, and the features selected (if applicable). Additionally, the full grid search results are saved to a .csv file, the best model is saved to a .pkl file, and the model is evaluated using the previous hidden test set, resulting in the generation of a  confusion matrix .png file. 
+### Examples
+select_model.py is the primary component of this project. It takes a JSON configuration file (see config_dummy.json for sample) and uses its contents to load a dataset, split the dataset into train-test samples, build a ML pipe, and run a grid search using k-fold cross validation to search for optimal hyperparameters.
+
+The output of this script includes print statements of the total grid search runtime, the # of hyperparameters explored, the best hyperparameter combination, the validation score associated with this combination, the best model, and the features selected (if applicable). Additionally, the full grid search results are saved to a .csv file, the best model is saved to a .pkl file, and the model is evaluated using the previous hidden test set, resulting in the generation of a confusion matrix .png file. 
 
 ```
 python select_model.py <your_config_file.json>
 ```
 
-test_math.py runs several unit tests on the mean and standard deviation functions in math_lib.py to test both accuracy and proper error handling.
+The REST API server can be initialized using the following command. After it is running, it will be able to take incoming requests from clients, use the pretrained best model to make a prediction, and return this prediction in the form of a response JSON.
 
 ```
-python test_math.py
+python rest_server.py or nohup python rest_server.py & (to run in background)
+```
+
+Once the REST server is running, HTTP requests can be submitted to it using the rest_client.py script. The user must specify host IP address, patient ID, and 11 patient features (space separated). The request will be processed by the REST server and a response will be returned in the form of a JSON.
+
+```
+python rest_client.py <ip_address> <patient_id> <feature 1> <feature 2> ... <feature 11>
+```
+
+The rest_client.py and rest_server.py are tested using functional_test.sh. This bash script starts up the rest_server and submits two sample HTTP requests. It also runs select_model.py for testing purposes since this script was too complicated to test otherwise.
+
+```
+bash functional_test.sh
 ```
 
 unit_tests.py runs several unit tests on the functions in the liver_function.py module to ensure correctness and proper handling of errors.
@@ -149,6 +163,21 @@ unit_tests.py runs several unit tests on the functions in the liver_function.py 
 ```
 python unit_tests.py
 ```
+
+## Benchmarking results
+During the grid search portion of the select_model.py script, we measured the time necessary for all k-fold cross validation to complete. Cross validation was parallelized over 12 CPUs. The results are shown in the table below.
+
+![](README_bench.png)
+
+## Cross validation results
+The top performing models, their associated hyperparameters, and their features sets are shown in the table below. The best performing model (the decision tree) was then used to evaluate the previously hidden test set.
+
+![](README_results.png)
+
+## Test set performance:
+The final test set consisted of 77 liver disease patients and 40 healthy patients. Our model achieved an F1 score of 0.825. The confusion matrix shown below details the predictions made by the model.
+
+![](README_cm.png)
 
 ## Authors
 

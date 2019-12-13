@@ -2,7 +2,7 @@ test -e ssshtest || curl -O https://raw.githubusercontent.com/ryanlayer/ssshtest
 . ssshtest
 
 # Start up rest_server using nohup
-- nohup python rest_server.py &
+nohup python rest_server.py &
 
 # Test rest_client and rest_server with proper input
 run test_client python rest_client.py localhost test_one 0 1 25 .5 .1 100 20 12 5.9 1.6 1
