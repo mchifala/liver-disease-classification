@@ -164,6 +164,14 @@ unit_tests.py runs several unit tests on the functions in the liver_function.py 
 python unit_tests.py
 ```
 
+liver_explore.py enables hyperparameter tuning visualization using distinct kernels. The main function accepts argparsed command line arguments to specify the type of classifier (K-nearest neighbors, support vector machines, and decision trees) and the locations of the resulting visualizations.
+```
+python liver_explore.py --output_file example_output_location --classifier_type DT
+```
+Some of the visualizations are given below:
+
+
+
 ## Benchmarking results
 During the grid search portion of the select_model.py script, we measured the time necessary for all k-fold cross validation to complete. Cross validation was parallelized over 12 CPUs. The results are shown in the table below.
 
