@@ -96,7 +96,8 @@ def learning_viz(classifier, output_folder):
             1, 10, num=10)), 'clf__kernel': ['rbf'], 'clf__gamma':
             list(np.logspace(0, 0.5, num=10))}
         svm_params, svm_score, svm_model, svm_cv_results_ = run_gridsearch(
-            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train, output_folder)
+            svm_pipe, svm_param_grid, 10, "f1", X_train,
+            y_train, output_folder)
         svm_grid_results = pd.DataFrame.from_dict(svm_cv_results_)
 
         # Process output
@@ -149,7 +150,8 @@ def learning_viz(classifier, output_folder):
                           'clf__kernel': ['rbf'],
                           'clf__gamma': list(np.linspace(0, 0.5, 25))}
         svm_params, svm_score, svm_model, svm_cv_results_ = run_gridsearch(
-            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train, output_folder)
+            svm_pipe, svm_param_grid, 10, "f1", X_train,
+            y_train, output_folder)
         svm_grid_results = pd.DataFrame.from_dict(svm_cv_results_)
 
         # Process output
@@ -204,7 +206,8 @@ def learning_viz(classifier, output_folder):
                           'clf__kernel': ['sigmoid'],
                           'clf__gamma': list(np.linspace(0, 0.5, 25))}
         svm_params, svm_score, svm_model, svm_cv_results_ = run_gridsearch(
-            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train, output_folder)
+            svm_pipe, svm_param_grid, 10, "f1", X_train,
+            y_train, output_folder)
         svm_grid_results = pd.DataFrame.from_dict(svm_cv_results_)
 
         # Process output
@@ -258,7 +261,8 @@ def learning_viz(classifier, output_folder):
             range(1, 10)), 'clf__kernel': ['poly'], 'clf__gamma': list(
             np.linspace(0, 0.5, 25))}
         svm_params, svm_score, svm_model, svm_cv_results_ = run_gridsearch(
-            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train, output_folder)
+            svm_pipe, svm_param_grid, 10, "f1", X_train,
+            y_train, output_folder)
         svm_grid_results = pd.DataFrame.from_dict(svm_cv_results_)
 
         # Process output
@@ -346,7 +350,8 @@ def learning_viz(classifier, output_folder):
                                np.linspace(2, 100, 20, dtype=int)),
                            'clf__max_features': list(range(1, 10))}
         tree_params, tree_score, tree_model, tree_cv_results_ = run_gridsearch(
-            tree_pipe, tree_param_grid, 10, "f1", X_train, y_train, output_folder)
+            tree_pipe, tree_param_grid, 10, "f1", X_train,
+            y_train, output_folder)
         tree_grid_results = pd.DataFrame.from_dict(tree_cv_results_)
 
         # Process output
