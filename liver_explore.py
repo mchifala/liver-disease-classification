@@ -55,13 +55,13 @@ def learning_viz(classifier, output_folder):
         X_train, y_train, X_test, y_test = setup()
 
         # Build pipeline
-        pipe = build_pipeline(KNeighborsClassifier(), True)
+        pipe = build_pipeline(KNeighborsClassifier(), True, False)
 
         # Run KNN classifier, vary neighbors from (1, 100)
         # and store f1 scores for testing and training
         param_grid = dict(clf__n_neighbors=list(range(1, 100)))
         params, score, model, cv_results_ = run_gridsearch(
-            pipe, param_grid, 10, "f1", X_train, y_train)
+            pipe, param_grid, 10, "f1", X_train, y_train, output_folder)
         grid_results = pd.DataFrame.from_dict(cv_results_)
 
         # Process output
@@ -86,7 +86,7 @@ def learning_viz(classifier, output_folder):
         X_train, y_train, X_test, y_test = setup()
 
         # Build pipeline
-        svm_pipe = build_pipeline(SVC(), True)
+        svm_pipe = build_pipeline(SVC(), True, False)
 
         # Run SVM classifier, vary classifiers store f1 score
         # Kernel: rbf
@@ -96,7 +96,7 @@ def learning_viz(classifier, output_folder):
             1, 10, num=10)), 'clf__kernel': ['rbf'], 'clf__gamma':
             list(np.logspace(0, 0.5, num=10))}
         svm_params, svm_score, svm_model, svm_cv_results_ = run_gridsearch(
-            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train)
+            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train, output_folder)
         svm_grid_results = pd.DataFrame.from_dict(svm_cv_results_)
 
         # Process output
@@ -149,7 +149,7 @@ def learning_viz(classifier, output_folder):
                           'clf__kernel': ['rbf'],
                           'clf__gamma': list(np.linspace(0, 0.5, 25))}
         svm_params, svm_score, svm_model, svm_cv_results_ = run_gridsearch(
-            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train)
+            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train, output_folder)
         svm_grid_results = pd.DataFrame.from_dict(svm_cv_results_)
 
         # Process output
@@ -204,7 +204,7 @@ def learning_viz(classifier, output_folder):
                           'clf__kernel': ['sigmoid'],
                           'clf__gamma': list(np.linspace(0, 0.5, 25))}
         svm_params, svm_score, svm_model, svm_cv_results_ = run_gridsearch(
-            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train)
+            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train, output_folder)
         svm_grid_results = pd.DataFrame.from_dict(svm_cv_results_)
 
         # Process output
@@ -258,7 +258,7 @@ def learning_viz(classifier, output_folder):
             range(1, 10)), 'clf__kernel': ['poly'], 'clf__gamma': list(
             np.linspace(0, 0.5, 25))}
         svm_params, svm_score, svm_model, svm_cv_results_ = run_gridsearch(
-            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train)
+            svm_pipe, svm_param_grid, 10, "f1", X_train, y_train, output_folder)
         svm_grid_results = pd.DataFrame.from_dict(svm_cv_results_)
 
         # Process output
@@ -332,7 +332,7 @@ def learning_viz(classifier, output_folder):
         X_train, y_train, X_test, y_test = setup()
 
         # Build Pipe
-        tree_pipe = build_pipeline(DecisionTreeClassifier(), True)
+        tree_pipe = build_pipeline(DecisionTreeClassifier(), True, False)
 
         # Run DecisionTreeClassifier classifier,
         # vary classifiers store f1 score
@@ -346,7 +346,7 @@ def learning_viz(classifier, output_folder):
                                np.linspace(2, 100, 20, dtype=int)),
                            'clf__max_features': list(range(1, 10))}
         tree_params, tree_score, tree_model, tree_cv_results_ = run_gridsearch(
-            tree_pipe, tree_param_grid, 10, "f1", X_train, y_train)
+            tree_pipe, tree_param_grid, 10, "f1", X_train, y_train, output_folder)
         tree_grid_results = pd.DataFrame.from_dict(tree_cv_results_)
 
         # Process output

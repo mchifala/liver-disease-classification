@@ -84,7 +84,7 @@ def run_gridsearch(pipe, param_grid, num_folds, metric,
 
     try:
         search = GridSearchCV(pipe, param_grid, cv=num_folds,
-                              scoring=metric, n_jobs=-1)
+                              scoring=metric, n_jobs=-1, return_train_score=True)
         search.fit(X_train, y_train)
         dump(search.best_estimator_, output_model+".pkl")
         return search.best_params_, search.best_score_, search.best_estimator_, search.cv_results_  # noqa: E501
